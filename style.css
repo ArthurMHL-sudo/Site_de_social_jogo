@@ -3,13 +3,14 @@
     --fg: #e8eaf0;
     --accent: #4f8cff;
     --card: #1a1d24;
-    --err: #ff6b6b;
+    --err: #f85959;
 }
 
 [data-theme="light"] {
     --bg: #f5f6fa;
     --fg: #1a1d24;
     --card: #fff;
+    --err: #f85959;
 }
 
 * {
@@ -42,21 +43,17 @@ body {
     font-weight: 600;
 }
 
-.chip-btn,
-#auth-go,
-#auth-close,
-.opt {
+.chip-btn {
     border: 0;
     border-radius: 999px;
     padding: .5rem 1rem;
     cursor: pointer;
     background: var(--accent);
-    color: #fff;
+    color: #ffffff;
     font: inherit;
 }
 
-.chip-btn.alt,
-#auth-close {
+.chip-btn.alt {
     background: transparent;
     color: var(--fg);
     border: 1px solid currentColor;
@@ -66,6 +63,74 @@ body {
 #auth-go:disabled {
     opacity: .6;
     cursor: wait;
+}
+
+/* ===== Botões com preenchimento animado: Entrar, Fechar e abas ===== */
+#auth-go,
+#auth-close,
+.opt {
+    border: 1px solid var(--fg);
+    border-radius: 999px;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    font: inherit;
+    color: var(--fg);
+    /* O azul é um preenchimento que sobe e desce */
+    background-color: transparent;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% 0%;
+    transition:
+        background-size .4s ease,
+        color .4s ease,
+        border-color .4s ease;
+}
+
+/* Estado "ativo" (preenchido de azul) */
+#auth-go,
+.opt.on {
+    background-size: 100% 100%;
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* Entrar e Fechar: mesma largura */
+#auth-go,
+#auth-close {
+    display: block;
+    width: 100%;
+}
+
+/* Espaço entre Entrar e Fechar */
+#auth-close {
+    margin-top: .75rem;
+}
+
+/* ----- Hover no Fechar: Fechar enche, Entrar esvazia ----- */
+#auth-close:hover {
+    background-size: 100% 100%;
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+dialog:has(#auth-close:hover) #auth-go {
+    background-size: 100% 0%;
+    color: var(--fg);
+    border-color: var(--fg);
+}
+
+/* ----- Hover na aba não selecionada: ela enche, a selecionada esvazia ----- */
+.opt:not(.on):hover {
+    background-size: 100% 100%;
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+.tabs:has(.opt:not(.on):hover) .opt.on {
+    background-size: 100% 0%;
+    color: var(--fg);
+    border-color: var(--fg);
 }
 
 .band {
@@ -99,16 +164,7 @@ dialog::backdrop {
 }
 
 .opt {
-    background: transparent;
-    color: var(--fg);
-    border: 1px solid currentColor;
     flex: 1;
-}
-
-.opt.on {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
 }
 
 form {
