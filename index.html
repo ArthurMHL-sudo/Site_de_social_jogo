@@ -1,19 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt" data-theme="dark">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Site_rede_jogos </title>
+  <title>Site_rede_jogos</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
+<body>
   <section id="landing" aria-label="Início">
     <div class="auth-chip" id="auth-chip">
       <span id="who" class="who" hidden></span>
+      <button id="a-museum" class="chip-btn" type="button" hidden>Museu</button>
       <button id="a-logout" class="chip-btn alt" type="button" hidden>Sair</button>
       <button id="a-login" class="chip-btn" type="button">Entrar / Criar conta</button>
     </div>
-    <div class="band">
-      <div class="marquee" data-row="0"></div>
+    <div class="band"><div class="marquee" data-row="0"></div></div>
+    <div class="band"><div class="marquee" data-row="1"></div></div>
+  </section>
+
+  <dialog id="auth">
+    <h2 id="auth-title">Entrar</h2>
+    <p id="auth-note"></p>
+    <div class="tabs">
+      <button class="opt" data-mode="login" type="button">Entrar</button>
+      <button class="opt" data-mode="register" type="button">Criar conta</button>
     </div>
+    <form id="auth-form">
+      <input id="au-user" autocomplete="username" placeholder="Nome de utilizador" required>
+      <input id="au-pass" type="password" placeholder="Palavra-passe" required>
+      <p id="auth-err" role="alert"></p>
+      <button id="auth-go" type="submit">Entrar</button>
+    </form>
+    <button id="auth-close" type="button">Fechar</button>
+  </dialog>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const api = async (path, opts) => {
+      const r = await fetch(path, opts);
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.error || "Erro " + r.status);
+      return d;
+    };
+    const post = (path, body) => api(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {})
+    });
+    const show = view => { document.body.dataset.view = view; };
+
+    let mode = "login";
+
+    function setMode(m) {
+      mode = m;
+      $("auth-title").textContent = m === "login" ? "Entrar" : "Criar conta";
+      $("auth-go").textContent = m === "login" ? "Entrar" : "Criar conta";
+      $("au-pass").autocomplete = m === "login" ? "current-password" : "new-password";
+      $("auth-err").textContent = "";
+      document.querySelectorAll(".tabs .opt").forEach(b =>
+        b.classList.toggle("on", b.dataset.mode === m));
+    }
+
+    function setUser(name) {
+      $("who").textContent = name || "";
+      $("who").hidden = !name;
+      $("a-museum").hidden = !name;
+      $("a-logout").hidden = !name;
+      $("a-login").hidden = !!name;
+    }
+
+    document.querySelectorAll(".tabs .opt").forEach(b =>
+      b.addEventListener("click", () => setMode(b.dataset.mode)));
+
+    $("a-login").addEventListener("click", () => {
+      setMode("login");
+      $("auth").showModal();
+    });
+    $("auth-close").addEventListener("click", () => $("auth").close());
+
+    $("auth-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      $("auth-go").disabled = true;
+      $("auth-err").textContent = "";
+      try {
+        const d = await post("/api/" + mode, {
+          username: $("au-user").value,
+          password: $("au-pass").value
+        });
+        setUser(d.username);
+        $("au-pass").value = "";
+        $("auth").close();
+      } catch (err) {
+        $("auth-err").textContent = err.message;
+      } finally {
+        $("auth-go").disabled = false;
+      }
+    });
+
+    $("a-logout").addEventListener("click", async () => {
+      try { await post("/api/logout"); } catch (_) {}
+      setUser(null);
+      show("landing");
+    });
+
+    $("a-museum").addEventListener("click", async () => {
+      try {
+        const d = await api("/api/museum");
+        console.log("Museu:", d.items);
+        show("museum");
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    // Ao abrir a página, verifica se já há sessão iniciada
+    api("/api/me").then(d => setUser(d.username)).catch(() => setUser(null));
+  </script>
+</body>
+</html>

@@ -6,7 +6,7 @@ import time
 
 DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "toca.db")
 if not os.path.exists(DB):
-    raise SystemExit("Ainda não existe toca.db. Arranca primeiro o servidor (iniciar.bat).")
+    raise SystemExit("Ainda não existe toca.db. Arranca primeiro o servidor (uvicorn main:app --reload).")
 
 fmt = lambda t: time.strftime("%d/%m/%Y %H:%M", time.localtime(t)) if t else "-"
 con = sqlite3.connect(DB)
