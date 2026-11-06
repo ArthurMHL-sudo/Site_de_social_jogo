@@ -1,24 +1,136 @@
-:root { --bg: #0f1115; --fg: #e8eaf0; --accent: #4f8cff; --card: #1a1d24; --err: #ff6b6b; }
-[data-theme="light"] { --bg: #f5f6fa; --fg: #1a1d24; --card: #fff; }
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--fg); }
-#landing { min-height: 100vh; position: relative; padding-top: 4rem; }
-.auth-chip { position: absolute; top: 1rem; right: 1rem; display: flex; gap: .5rem; align-items: center; }
-.who { font-weight: 600; }
-.chip-btn, #auth-go, #auth-close, .opt {
-  border: 0; border-radius: 999px; padding: .5rem 1rem; cursor: pointer;
-  background: var(--accent); color: #fff; font: inherit;
+:root {
+    --bg: #0f1115;
+    --fg: #e8eaf0;
+    --accent: #4f8cff;
+    --card: #1a1d24;
+    --err: #ff6b6b;
 }
-.chip-btn.alt, #auth-close { background: transparent; color: var(--fg); border: 1px solid currentColor; }
-.chip-btn:disabled, #auth-go:disabled { opacity: .6; cursor: wait; }
-.band { overflow: hidden; margin: 1rem 0; }
-.marquee { display: flex; gap: 1rem; min-height: 6rem; }
-dialog { border: 0; border-radius: 1rem; padding: 1.5rem; background: var(--card); color: var(--fg); width: min(92vw, 22rem); }
-dialog::backdrop { background: rgba(0, 0, 0, .6); }
-.tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
-.opt { background: transparent; color: var(--fg); border: 1px solid currentColor; flex: 1; }
-.opt.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-form { display: grid; gap: .75rem; }
-input { padding: .6rem .8rem; border-radius: .5rem; border: 1px solid #555; background: transparent; color: inherit; font: inherit; }
-#auth-err { color: var(--err); min-height: 1.2em; margin: 0; }
-[hidden] { display: none !important; }
+
+[data-theme="light"] {
+    --bg: #f5f6fa;
+    --fg: #1a1d24;
+    --card: #fff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+}
+
+#landing {
+    min-height: 100vh;
+    position: relative;
+    padding-top: 4rem;
+}
+
+.auth-chip {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+.who {
+    font-weight: 600;
+}
+
+.chip-btn,
+#auth-go,
+#auth-close,
+.opt {
+    border: 0;
+    border-radius: 999px;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+}
+
+.chip-btn.alt,
+#auth-close {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid currentColor;
+}
+
+.chip-btn:disabled,
+#auth-go:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.band {
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.marquee {
+    display: flex;
+    gap: 1rem;
+    min-height: 6rem;
+}
+
+dialog {
+    border: 0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: var(--card);
+    color: var(--fg);
+    width: min(92vw, 22rem);
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, .6);
+}
+
+.tabs {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 1rem;
+}
+
+.opt {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid currentColor;
+    flex: 1;
+}
+
+.opt.on {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+form {
+    display: grid;
+    gap: .75rem;
+}
+
+input {
+    padding: .6rem .8rem;
+    border-radius: .5rem;
+    border: 1px solid #555;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+}
+
+#auth-err {
+    color: var(--err);
+    min-height: 1.2em;
+    margin: 0;
+}
+
+[hidden] {
+    display: none !important;
+}
