@@ -19,9 +19,9 @@ for t in ("users", "sessions", "history"):
 print("\n== Contas ==")
 for u in con.execute("SELECT u.id, u.username, u.created, COUNT(h.id) n FROM users u "
                      "LEFT JOIN history h ON h.user_id = u.id GROUP BY u.id ORDER BY u.id"):
-    print(f"  #{u['id']}  {u['username']:<24} criada em {fmt(u['created'])}  ·  {u['n']} vídeos no museu")
+    print(f"  #{u['id']}  {u['username']:<24} criada em {fmt(u['created'])}  ·  {u['n']} vídeos no perfil")
 
-print("\n== Museu dos Vídeos (últimos 30) ==")
+print("\n== Vídeos dos perfis (últimos 30) ==")
 for h in con.execute("SELECT h.*, u.username FROM history h JOIN users u ON u.id = h.user_id "
                      "ORDER BY h.created DESC LIMIT 30"):
     label = "MP3/áudio" if h["kind"] == "audio" else f"{h['height'] or '?'}p"

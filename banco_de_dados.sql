@@ -38,7 +38,7 @@ CREATE TABLE
   ) ENGINE = InnoDB;
 
 -- ------------------------------------------------------------
---  Museu dos Vídeos Baixados: um registo por descarga concluída.
+--  Perfil: vídeos baixados, um registo por descarga concluída.
 -- ------------------------------------------------------------
 CREATE TABLE
   IF NOT EXISTS history (
@@ -61,11 +61,11 @@ CREATE TABLE
   ) ENGINE = InnoDB;
 
 -- ------------------------------------------------------------
---  Vista pronta do museu: mostra o nome da conta e o formato
+--  Vista pronta do perfil: mostra o nome da conta e o formato
 --  já escrito (ex.: "1080p · MP4" ou "MP3").
 -- ------------------------------------------------------------
 CREATE
-OR REPLACE VIEW museu_dos_videos_baixados AS
+OR REPLACE VIEW perfil_dos_videos_baixados AS
 SELECT
   h.id,
   u.username AS conta,
@@ -89,11 +89,11 @@ FROM
 -- ------------------------------------------------------------
 --  Consultas úteis (tira o "--" para usar)
 -- ------------------------------------------------------------
--- Museu de uma conta, do mais recente para o mais antigo:
---   SELECT * FROM museu_dos_videos_baixados WHERE conta = 'Ana' ORDER BY baixado_em DESC;
+-- Perfil de uma conta, do mais recente para o mais antigo:
+--   SELECT * FROM perfil_dos_videos_baixados WHERE conta = 'Ana' ORDER BY baixado_em DESC;
 -- Quantos vídeos cada conta tem:
 --   SELECT u.username, COUNT(h.id) AS videos FROM users u LEFT JOIN history h ON h.user_id = u.id GROUP BY u.id;
--- Limpar o museu de uma conta:
+-- Limpar o perfil de uma conta:
 --   DELETE FROM history WHERE user_id = (SELECT id FROM users WHERE username = 'Ana');
 -- Apagar sessões com mais de 30 dias:
 --   DELETE FROM sessions WHERE created_at < NOW() - INTERVAL 30 DAY;

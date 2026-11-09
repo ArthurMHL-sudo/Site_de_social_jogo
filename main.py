@@ -132,8 +132,8 @@ def me(request: Request):
     return {"username": u["username"] if u else None}
 
 
-@app.get("/api/museum")
-def museum(request: Request):
+@app.get("/api/profile")
+def profile(request: Request):
     u = current_user(request)
     if not u:
         return err("Inicia sessão primeiro.", 401)
@@ -143,7 +143,7 @@ def museum(request: Request):
             "FROM history WHERE user_id = ? ORDER BY created DESC",
             (u["id"],),
         ).fetchall()
-    return {"items": [dict(r) for r in rows]}
+    return {"username": u["username"], "items": [dict(r) for r in rows]}
 
 
 # Só estes ficheiros são públicos (nunca .git, toca.db, schema.sql...)
@@ -155,3 +155,8 @@ def index():
 @app.get("/style.css")
 def css():
     return FileResponse(os.path.join(BASE, "style.css"), media_type="text/css")
+
+
+@app.get("/dragao.png")
+def dragao():
+    return FileResponse(os.path.join(BASE, "dragao.png"), media_type="image/png")

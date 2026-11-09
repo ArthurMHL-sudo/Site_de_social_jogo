@@ -10,7 +10,7 @@
   <section id="landing" aria-label="Início">
     <div class="auth-chip" id="auth-chip">
       <span id="who" class="who" hidden></span>
-      <button id="a-museum" class="chip-btn" type="button" hidden>Museu</button>
+      <button id="a-profile" class="chip-btn" type="button" hidden>Perfil</button>
       <button id="a-logout" class="chip-btn alt" type="button" hidden>Sair</button>
       <button id="a-login" class="chip-btn" type="button">Entrar / Criar conta</button>
     </div>
@@ -64,7 +64,7 @@
     function setUser(name) {
       $("who").textContent = name || "";
       $("who").hidden = !name;
-      $("a-museum").hidden = !name;
+      $("a-profile").hidden = !name;
       $("a-logout").hidden = !name;
       $("a-login").hidden = !!name;
     }
@@ -103,11 +103,11 @@
       show("landing");
     });
 
-    $("a-museum").addEventListener("click", async () => {
+    $("a-profile").addEventListener("click", async () => {
       try {
-        const d = await api("/api/museum");
-        console.log("Museu:", d.items);
-        show("museum");
+        const d = await api("/api/profile");
+        console.log("Perfil:", d.items);
+        show("profile");
       } catch (err) {
         alert(err.message);
       }
