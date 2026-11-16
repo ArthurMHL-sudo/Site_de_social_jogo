@@ -81,6 +81,7 @@ body {
 /* ===== Botões com preenchimento animado: Entrar, Fechar e abas ===== */
 #auth-go,
 #auth-close,
+.close-btn,
 .opt {
     border: 1px solid var(--fg);
     border-radius: 999px;
@@ -110,18 +111,21 @@ body {
 
 /* Entrar e Fechar: mesma largura */
 #auth-go,
-#auth-close {
+#auth-close,
+.close-btn {
     display: block;
     width: 100%;
 }
 
 /* Espaço entre Entrar e Fechar */
-#auth-close {
+#auth-close,
+.close-btn {
     margin-top: .75rem;
 }
 
 /* ----- Hover no Fechar: Fechar enche, Entrar esvazia ----- */
-#auth-close:hover {
+#auth-close:hover,
+.close-btn:hover {
     background-size: 100% 100%;
     color: #ffffff;
     border-color: var(--accent);
@@ -202,4 +206,21 @@ input {
 
 [hidden] {
     display: none !important;
+}
+
+.plist {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    max-height: 50vh;
+    overflow-y: auto;
+    display: grid;
+    gap: .5rem;
+}
+
+.plist li {
+    padding: .5rem .75rem;
+    border-radius: .5rem;
+    background: rgba(127, 127, 127, .15);
+    overflow-wrap: anywhere;
 }

@@ -34,6 +34,12 @@
     <button id="auth-close" type="button">Fechar</button>
   </dialog>
 
+  <dialog id="profile">
+    <h2 id="profile-title">Perfil</h2>
+    <ul id="profile-list" class="plist"></ul>
+    <button id="profile-close" class="close-btn" type="button">Fechar</button>
+  </dialog>
+
   <script>
     const $ = id => document.getElementById(id);
     const api = async (path, opts) => {
@@ -77,6 +83,7 @@
       $("auth").showModal();
     });
     $("auth-close").addEventListener("click", () => $("auth").close());
+    $("profile-close").addEventListener("click", () => $("profile").close());
 
     $("auth-form").addEventListener("submit", async e => {
       e.preventDefault();
@@ -106,8 +113,21 @@
     $("a-profile").addEventListener("click", async () => {
       try {
         const d = await api("/api/profile");
-        console.log("Perfil:", d.items);
-        show("profile");
+        $("profile-title").textContent = "Perfil de " + d.username;
+        const list = $("profile-list");
+        list.replaceChildren();
+        if (!d.items.length) {
+          const li = document.createElement("li");
+          li.textContent = "Ainda não há nada no teu histórico.";
+          list.append(li);
+        }
+        for (const it of d.items) {
+          const li = document.createElement("li");
+          li.textContent = (it.title || it.url || "Sem título") +
+            (it.site ? " (" + it.site + ")" : "");
+          list.append(li);
+        }
+        $("profile").showModal();
       } catch (err) {
         alert(err.message);
       }
