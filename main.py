@@ -1,7 +1,8 @@
 """
+guia para arrancar o server do site para os amiguinhos testarem.
 Servidor do site (Flask + SQLite).
 
-Arrancar:  python main.py        (NÃO usar uvicorn: isto é Flask, não FastAPI)
+Arrancar:  python main.py
 Abrir:     http://127.0.0.1:8765/
 """
 
